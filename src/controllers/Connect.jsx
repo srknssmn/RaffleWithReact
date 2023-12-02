@@ -6,6 +6,7 @@ function Connect({sendProvider}) {
 
     const [account, setAccount] = useState("")
     const [provider, setProvider] = useState(null)
+    const [menuBarActive, setMenuBarActive] = useState(false)
 
     async function connect() {
 
@@ -24,14 +25,70 @@ function Connect({sendProvider}) {
         sendProvider(provider)
     }
 
+    function myFunction() {
+        if(menuBarActive == false) {
+            setMenuBarActive(true)
+        } else {
+            setMenuBarActive(false)
+        }
+    }
+
     return ( 
         <div>
-        <button onClick={ () => {
-            if (account) return; 
-            connect() }}>
-                {account ? account : "Connect Wallet"}
-            </button>
-    </div> 
+            <section className="bg-gray-900 w-full">
+                <header id="header" className="py-4 lg:py-6 text-lighty font-gabriela">
+                    <div className="container flex justify-between space-x-4 lg:space-x-16 items-start">
+                        <a href="/" className="flex flex-col items-center lg:ml-4">
+                            <p className="text-2xl lg:text-3xl font-bold tracking-widest text-transparent bg-gradient-to-r bg-clip-text from-blue-800 to-gray-200">NFT RAFFLE</p>
+                        </a>
+                        <div className="block md:hidden pr-4 text-white">
+                            <div id="menubutton" className="containerSec" onClick={myFunction}>
+                                <div className="bar1"></div>
+                                <div className="bar2"></div>
+                                <div className="bar3"></div>
+                            </div>
+                        </div>
+                        <nav className="hidden md:flex lg:flex justify-between flex-1 pl-10">
+                            <div className="flex items-center lg:text-md space-x-2 lg:space-x-8 drop-shadow-xl text-white">
+                                <a href="/falbaktir" className="hover:text-gega-sky transition duration-500 tracking-widest"><i className="fa-brands fa-hive"></i> RollApp</a>
+                                <a href="/krediler" className="hover:text-gega-sky transition duration-500 tracking-widest text-blue-500"><i className="fa-solid fa-faucet"></i> Faucet</a>
+                                <div className="relative inline-block tooltipMarket hover:line-through duration-700 tracking-widest cursor-pointer">
+                                    <a className="tooltipMarket ">NFT Marketplace</a>
+                                    <div className="flex z-20 absolute bottom-6 justify-start items-center invisible tooltipMarket-item">
+                                        <p className="text-white text-sm invisible tooltipMarket-item">Soon</p>
+                                    </div>
+                                </div>
+                                <a href="/contact" className="hover:text-gega-sky transition duration-500 tracking-widest">Contact</a>
+                            </div>
+                            <div className="pr-4">
+                                <div className="text-center hover:text-gega-melon transition duration-500 tracking-widest rounded-lg border-2 border-white px-1 py-1">
+                                    <button className="text-white font-bold" onClick={ () => {
+                                        if (account) return; 
+                                        connect() }}>
+                                        {account ? account : "Connect Wallet"}
+                                    </button>
+                                </div>
+                            </div>
+                        </nav>
+                    </div> 
+                    <header id="menubar" className={`${menuBarActive ? "text-white font-gemunu uppercase change pt-2" : "text-white font-gemunu uppercase hidden pt-2"}`}>
+                        <nav className="">
+                            <div className="flex flex-col items-end space-y-1 pr-2">
+                                <a href="/falbaktir" className="hover:text-gega-melon transition duration-500 tracking-widest"><i className="fa-brands fa-hive"></i> RollApp</a>
+                                <a href="/krediler" className="hover:text-gega-melon transition duration-500 tracking-widest"><i className="fa-solid fa-faucet"></i> Faucet</a>
+                                <a href="/blogs" className="hover:text-gega-melon transition duration-500 tracking-widest">Contact</a>
+                                <button className="hover:text-gega-melon transition duration-500 tracking-widest rounded-lg border-2 border-white px-1 py-1" onClick={ () => {
+                                    if (account) return; 
+                                    connect() }}>
+                                    {account ? account : "Connect Wallet"}
+                                </button>
+                            </div>
+                        </nav>
+                    </header>
+                </header>
+            </section>
+
+        </div> 
      );
 }
 

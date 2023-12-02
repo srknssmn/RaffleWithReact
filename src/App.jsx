@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
+import './css/styles.css'
 import Connect from './controllers/Connect';
 import Buyers from './components/Buyers';
 import {Contract} from './contracts/Contract';
@@ -87,6 +88,10 @@ function App() {
       <p>Total Entries: {entries}</p>
       {buyers.length > 0 ? <p>Total Buyers: {buyers.length}</p> : ""}
       <Buyers buyersArray={buyers}/>
+
+      <h1 className="text-3xl font-bold underline">
+        Hello world!
+      </h1>
     </>
   )
 }

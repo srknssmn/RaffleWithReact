@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import { ConnectWallet } from './controllers/connectWallet'
+import Connect from './controllers/Connect';
 import Buyers from './components/Buyers';
 import {Contract} from './contracts/Contract';
 import { ethers } from "ethers";
@@ -78,7 +78,7 @@ function App() {
 
   return (
     <>
-      <ConnectWallet sendProvider={newAccount}/>
+      <Connect sendProvider={newAccount}/>
       {/* <ShowWinner show={raffleContract} /> */}
       {lottery ? <p>Lottery Status: {lottery ? "true" : "false"}</p> : ""}  
       {ticketCost ? <p>Ticket Cost: {ticketCost}</p> : ""}

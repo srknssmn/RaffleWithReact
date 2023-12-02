@@ -2,7 +2,7 @@ import { useState } from "react";
 import {verifyNetwork} from "./verifyNetwork.js";
 import { ethers } from "ethers";
 
-export const ConnectWallet = ({sendProvider}) => {
+function Connect({sendProvider}) {
 
     const [account, setAccount] = useState("")
     const [provider, setProvider] = useState(null)
@@ -26,11 +26,13 @@ export const ConnectWallet = ({sendProvider}) => {
 
     return ( 
         <div>
-            <button onClick={ () => {
-                if (account) return; 
-                connect() }}>
-                    {account ? account : "Connect Wallet"}
-                </button>
-        </div> 
-    );
+        <button onClick={ () => {
+            if (account) return; 
+            connect() }}>
+                {account ? account : "Connect Wallet"}
+            </button>
+    </div> 
+     );
 }
+
+export default Connect; 

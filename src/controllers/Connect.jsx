@@ -2,11 +2,10 @@ import { useState } from "react";
 import {verifyNetwork} from "./verifyNetwork.js";
 import { ethers } from "ethers";
 
-function Connect({sendProvider}) {
+function Connect({sendProvider, sendWallet}) {
 
     const [account, setAccount] = useState("")
-    const [provider, setProvider] = useState(null)
-    const [menuBarActive, setMenuBarActive] = useState(false)
+    const [menuBarActive, setMenuBarActive] = useState(false) 
 
     async function connect() {
 
@@ -17,12 +16,15 @@ function Connect({sendProvider}) {
         await verifyNetwork();
         
         const provider = await new ethers.providers.Web3Provider(window.ethereum);
-        setProvider(provider);
         await provider.send("eth_requestAccounts", []).then((accounts) => {
-            setAccount(accounts[0]);
+            let first = accounts[0].slice(0, 5)
+            let last = accounts[0].slice(-5)
+            setAccount(first + "..." + last);
         }).catch((err) => {console.log(err)})
         const signer = await provider.getSigner();
         sendProvider(provider)
+        const walletAddress = await signer.getAddress();
+        sendWallet(walletAddress);
     }
 
     function myFunction() {
@@ -58,14 +60,16 @@ function Connect({sendProvider}) {
                                         <p className="text-white text-sm invisible tooltipMarket-item">Soon</p>
                                     </div>
                                 </div>
-                                <a href="/" className="hover:text-gega-sky transition duration-500 tracking-widest">Contact</a>
+                                <a href="#contact" className="hover:text-gega-sky transition duration-500 tracking-widest">Contact</a>
                             </div>
+                            <p className="text-white"></p>
                             <div className="pr-4">
                                 <div className="text-center hover:text-gega-melon transition duration-500 tracking-widest rounded-lg border-2 border-white px-1 py-1">
                                     <button className="text-white font-bold" onClick={ () => {
                                         if (account) return; 
                                         connect() }}>
-                                        {account ? account : "Connect Wallet"}
+                                        {account ? account 
+                                        : "Connect Wallet"}
                                     </button>
                                 </div>
                             </div>

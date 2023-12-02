@@ -50,15 +50,15 @@ function Connect({sendProvider}) {
                         </div>
                         <nav className="hidden md:flex lg:flex justify-between flex-1 pl-10">
                             <div className="flex items-center lg:text-md space-x-2 lg:space-x-8 drop-shadow-xl text-white">
-                                <a href="/falbaktir" className="hover:text-gega-sky transition duration-500 tracking-widest"><i className="fa-brands fa-hive"></i> RollApp</a>
-                                <a href="/krediler" className="hover:text-gega-sky transition duration-500 tracking-widest text-blue-500"><i className="fa-solid fa-faucet"></i> Faucet</a>
+                                <a href="https://portal.dymension.xyz/rollapp/coinhunterstr_5131910-1" target="_blank" className="hover:text-gega-sky transition duration-500 tracking-widest"><i className="fa-brands fa-hive"></i> RollApp</a>
+                                <a href="https://testnet-faucet-nu.vercel.app/" target="_blank" className="hover:text-gega-sky transition duration-500 tracking-widest text-blue-500"><i className="fa-solid fa-faucet"></i> Faucet</a>
                                 <div className="relative inline-block tooltipMarket hover:line-through duration-700 tracking-widest cursor-pointer">
                                     <a className="tooltipMarket ">NFT Marketplace</a>
                                     <div className="flex z-20 absolute bottom-6 justify-start items-center invisible tooltipMarket-item">
                                         <p className="text-white text-sm invisible tooltipMarket-item">Soon</p>
                                     </div>
                                 </div>
-                                <a href="/contact" className="hover:text-gega-sky transition duration-500 tracking-widest">Contact</a>
+                                <a href="/" className="hover:text-gega-sky transition duration-500 tracking-widest">Contact</a>
                             </div>
                             <div className="pr-4">
                                 <div className="text-center hover:text-gega-melon transition duration-500 tracking-widest rounded-lg border-2 border-white px-1 py-1">
@@ -74,9 +74,9 @@ function Connect({sendProvider}) {
                     <header id="menubar" className={`${menuBarActive ? "text-white font-gemunu uppercase change pt-2" : "text-white font-gemunu uppercase hidden pt-2"}`}>
                         <nav className="">
                             <div className="flex flex-col items-end space-y-1 pr-2">
-                                <a href="/falbaktir" className="hover:text-gega-melon transition duration-500 tracking-widest"><i className="fa-brands fa-hive"></i> RollApp</a>
-                                <a href="/krediler" className="hover:text-gega-melon transition duration-500 tracking-widest"><i className="fa-solid fa-faucet"></i> Faucet</a>
-                                <a href="/blogs" className="hover:text-gega-melon transition duration-500 tracking-widest">Contact</a>
+                                <a href="https://portal.dymension.xyz/rollapp/coinhunterstr_5131910-1" target="_blank" className="hover:text-gega-melon transition duration-500 tracking-widest"><i className="fa-brands fa-hive"></i> RollApp</a>
+                                <a href="https://testnet-faucet-nu.vercel.app/" target="_blank" className="hover:text-gega-melon transition duration-500 tracking-widest"><i className="fa-solid fa-faucet"></i> Faucet</a>
+                                <a href="/" className="hover:text-gega-melon transition duration-500 tracking-widest">Contact</a>
                                 <button className="hover:text-gega-melon transition duration-500 tracking-widest rounded-lg border-2 border-white px-1 py-1" onClick={ () => {
                                     if (account) return; 
                                     connect() }}>

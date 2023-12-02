@@ -145,8 +145,8 @@ function App() {
           <div className='flex flex-col lg:flex-row mb-10 pb-10 border-b-2'>
             <div className='lg:w-1/2 items-center px-4'>
               <h2 className='ml-10 mt-10 text-3xl font-bold tracking-wider border-b-2'>Current Prize NFT</h2>
-              <div className='m-10 flex items-center justify-center'>
-                <img className='rounded-lg' src={RaffleNFT} alt="" />
+              <div className='m-10 flex items-center justify-center drop-shadow-xl'>
+                <img className='rounded-lg drop-shadow-xl' src={RaffleNFT} alt="" />
               </div>
               <div>
                 <h4 className="tracking-wider font-semibold text-xl underline">NFT Info:</h4>

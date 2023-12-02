@@ -5,7 +5,16 @@ import Connect from './controllers/Connect';
 import Buyers from './components/Buyers';
 import {Contract} from './contracts/Contract';
 import { ethers } from "ethers";
+
 import RaffleNFT from './images/RaffleNFT.png'
+import bayc from './images/bayc.png'
+import bayc2 from './images/bayc2.jpg'
+import cpunks from './images/cpunks.png'
+import cpunks2 from './images/cpunks2.png'
+import beanz from './images/beanz.png'
+import DeGods from './images/DeGods.png'
+import Doodles from './images/Doodles.png'
+import milady from './images/milady.png'
 
 function App() {
 
@@ -34,7 +43,7 @@ function App() {
   const showEntries = async () => {
     const response = await raffleContract?.totalEntries();
     const responseValue = await ethers.utils.formatEther(response)
-    const entriesValue = await responseValue * 10**18
+    const entriesValue = await Math.round(responseValue * 10**18)
     setEntries(entriesValue);
   }
 
@@ -67,7 +76,6 @@ function App() {
     } catch(error) {
         console.log(error)
     }
-
   }
 
   useEffect(() => {
@@ -85,13 +93,13 @@ function App() {
       <Connect sendProvider={newAccount}/>
       {/* <ShowWinner show={raffleContract} /> */}
       {first ? 
-        <div className='w-full flex flex-row'>
-          <div className='w-1/2 items-center px-4'>
+        <div className='w-full flex flex-col lg:flex-row'>
+          <div className='lg:w-1/2 items-center px-4'>
             <div className='m-10'>
               <img src={RaffleNFT} alt="" />
             </div>
           </div>
-          <div className='w-1/2 items-center px-4'>
+          <div className='lg:w-1/2 items-center px-4'>
             <div className='m-10'>
               {lottery ? <p>Lottery Status: {lottery ? "true" : "false"}</p> : ""}  
               {ticketCost ? <p>Ticket Cost: {ticketCost}</p> : ""}
@@ -107,9 +115,31 @@ function App() {
         </div>
         :
         <div>
-          <h1 className="text-3xl font-bold underline">
-            Hello world!
-          </h1>
+          <div className='mx-32 mt-20 mb-8'>
+            <h1 className="text-6xl font-bold tracking-wider">
+              You Can Get the Most Valuable NFTs
+            </h1>
+            <h1 className="text-6xl font-bold tracking-wider text-blue-800 mt-4">
+              by Participating in the Raffles
+            </h1>
+            <div className='items-center mt-20 place-items-center content-center text-center'>
+              <button disabled className='text-xl text-gray-500 border-2 border-blue-500 rounded-xl px-10 py-2 font-bold'>Let's Start with Wallet Connect</button>
+            </div>
+          </div>
+          <div className="logos flex flex-row cursor-pointer select-none">
+            <div className="logos-slide flex flex-row">
+                <img src={RaffleNFT} className="lg:ml-10 rounded-lg" alt=""/>
+                <img src={bayc} className="rounded-lg" alt=""/>
+                <img src={cpunks} className="rounded-lg" alt=""/>
+                <img src={beanz} className="rounded-lg" alt=""/>
+                <img src={DeGods} className="rounded-lg" alt=""/>
+                <img src={RaffleNFT} className="lg:ml-10 rounded-lg" alt=""/>
+                <img src={Doodles} className="rounded-lg" alt=""/>
+                <img src={milady} className="rounded-lg" alt=""/>
+                <img src={bayc2} className="rounded-lg" alt=""/>
+                <img src={cpunks2} className="rounded-lg" alt=""/>
+            </div>
+          </div>
         </div>
     }
     </>

@@ -219,11 +219,11 @@ function App() {
                     <button className='hover:text-gega-melon transition duration-500 tracking-widest rounded-lg border-2 border-blue-800 px-1 py-1 text-blue-800 font-bold' onClick={handleBuyTicket}>Buy Ticket</button>
                   </div>
                   {/* User Info Section */}
-                  <div className='my-6 p-4 border-2 border-gray-400 rounded-lg'>
+                  <div className='my-6 p-2 lg:p-4 border-2 border-gray-400 rounded-lg'>
                     <h4 className="tracking-wider font-semibold text-xl underline">User Info:</h4>
                     <div className='flex flex-row space-x-2 my-3'>
                       <p className='font-bold tracking-wider'>Wallet:</p>
-                      <p>{walletAddress}</p>
+                      <p className='text-sm lg:text-md'>{walletAddress}</p>
                     </div>
                     <div className='flex flex-row space-x-2 my-3'>
                       <p className='font-bold tracking-wider'>Ticket Count:</p>
@@ -244,15 +244,15 @@ function App() {
         </div>
         :
         <div>
-          <div className='mx-32 mt-20 mb-8'>
-            <h1 className="text-6xl font-bold tracking-wider">
+          <div className='mx-4 lg:mx-32 mt-12 lg:mt-20 mb-2 lg:mb-8'>
+            <h1 className="text-3xl lg:text-6xl font-bold tracking-wider">
               You Can Get the Most Valuable NFTs
             </h1>
-            <h1 className="text-6xl font-bold tracking-wider text-blue-800 mt-4">
+            <h1 className="text-3xl lg:text-6xl font-bold tracking-wider text-blue-800 mt-4">
               by Participating in the Raffles
             </h1>
-            <div className='items-center mt-20 place-items-center content-center text-center'>
-              <button disabled className='text-xl text-gray-500 border-2 border-blue-500 rounded-xl px-10 py-2 font-bold'>Let's Start with Wallet Connect</button>
+            <div className='items-center mt-12 lg:mt-20 place-items-center content-center text-center'>
+              <button disabled className='text-md lg:text-xl text-gray-500 border-2 border-blue-500 rounded-xl px-10 py-2 font-bold'>Let's Start with Wallet Connect</button>
             </div>
           </div>
           <div className="logos flex flex-row cursor-pointer select-none">

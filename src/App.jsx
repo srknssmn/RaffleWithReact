@@ -5,9 +5,11 @@ import Connect from './controllers/Connect';
 import Buyers from './components/Buyers';
 import {Contract} from './contracts/Contract';
 import { ethers } from "ethers";
+import RaffleNFT from './images/RaffleNFT.png'
 
 function App() {
 
+  const [first, setfirst] = useState(false)
   const [raffleContract, setRaffleContract] = useState(null)
   const [account, setAccount] = useState(null)
   const [entries, setEntries] = useState(null)
@@ -20,6 +22,7 @@ function App() {
     const contract = Contract();
     setRaffleContract(contract);
     setAccount(provider);
+    setfirst(true)
   }
 
   const showTicketCost = async () => {
@@ -81,17 +84,34 @@ function App() {
     <>
       <Connect sendProvider={newAccount}/>
       {/* <ShowWinner show={raffleContract} /> */}
-      {lottery ? <p>Lottery Status: {lottery ? "true" : "false"}</p> : ""}  
-      {ticketCost ? <p>Ticket Cost: {ticketCost}</p> : ""}
-      <p>User Ticket: {userTickets}</p>
-      <button onClick={handleBuyTicket}>Buy Ticket</button>
-      <p>Total Entries: {entries}</p>
-      {buyers.length > 0 ? <p>Total Buyers: {buyers.length}</p> : ""}
-      <Buyers buyersArray={buyers}/>
-
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
+      {first ? 
+        <div className='w-full flex flex-row'>
+          <div className='w-1/2 items-center px-4'>
+            <div className='m-10'>
+              <img src={RaffleNFT} alt="" />
+            </div>
+          </div>
+          <div className='w-1/2 items-center px-4'>
+            <div className='m-10'>
+              {lottery ? <p>Lottery Status: {lottery ? "true" : "false"}</p> : ""}  
+              {ticketCost ? <p>Ticket Cost: {ticketCost}</p> : ""}
+              <p>User Ticket: {userTickets}</p>
+              <div className='hover:text-gega-melon transition duration-500 tracking-widest rounded-lg border-2 border-blue-800 px-1 py-1'>
+                <button className='text-blue-800 font-bold' onClick={handleBuyTicket}>Buy Ticket</button>
+              </div>
+              <p>Total Entries: {entries}</p>
+              {buyers.length > 0 ? <p>Total Buyers: {buyers.length}</p> : ""}
+              <Buyers buyersArray={buyers}/>
+            </div>
+          </div>  
+        </div>
+        :
+        <div>
+          <h1 className="text-3xl font-bold underline">
+            Hello world!
+          </h1>
+        </div>
+    }
     </>
   )
 }

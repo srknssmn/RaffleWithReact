@@ -4,6 +4,7 @@ import './css/styles.css'
 import Connect from './controllers/Connect';
 import Buyers from './components/Buyers';
 import {Contract} from './contracts/Contract';
+import { NFTContract } from './contracts/NFTContract';
 import { ethers } from "ethers";
 
 import RaffleNFT from './images/RaffleNFT.png'
@@ -20,7 +21,9 @@ function App() {
 
   const [first, setfirst] = useState(false)
   const [raffleContract, setRaffleContract] = useState(null)
+  const [nftContract, setNftContract] = useState(null)
   const [account, setAccount] = useState(null)
+  const [admin, setAdmin] = useState(null)
   const [entries, setEntries] = useState(null)
   const [lottery, setLottery] = useState(false)
   const [buyers, setBuyers] = useState([])
@@ -33,7 +36,9 @@ function App() {
 
   const newAccount = (provider) => {
     const contract = Contract();
+    const nftContract = NFTContract();
     setRaffleContract(contract);
+    setNftContract(nftContract)
     setAccount(provider);
     setfirst(true)
   }
@@ -85,6 +90,11 @@ function App() {
     setNftAddress(response)
   }
 
+  const showAdminAddress = async () => {
+    const response = await raffleContract?.admin();
+    setAdmin(response)
+  }
+
   const handleTicketValue = (event) => {
     setTicketValue(event.target.value)
   }
@@ -124,6 +134,12 @@ function App() {
     }
   }
 
+  const mintNFT = async () => {
+    console.log(nftContract)
+    const txn = await nftContract.safeMint(admin);
+    await txn.wait();
+  }
+
   useEffect(() => {
     if (account) {
       showUserTicket();
@@ -133,6 +149,7 @@ function App() {
       showLotteryStatus();
       showWinner();
       showNftAddress();
+      showAdminAddress();
     }    
   });
 
@@ -271,6 +288,11 @@ function App() {
           </div>
         </div>
     }
+
+    {(admin == walletAddress) ?
+      <button onClick={mintNFT}>Mint NFT</button>
+    : "You aren't Admin!"}
+
     <div className='mt-10'>
       <footer id='contact' className="bg-white rounded-lg shadow dark:bg-gray-900 m-4">
         <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">

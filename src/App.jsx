@@ -291,7 +291,7 @@ function App() {
 
     {(admin == walletAddress) ?
       <button onClick={mintNFT}>Mint NFT</button>
-    : "You aren't Admin!"}
+    : ""}
 
     <div className='mt-10'>
       <footer id='contact' className="bg-white rounded-lg shadow dark:bg-gray-900 m-4">

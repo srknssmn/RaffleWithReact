@@ -52,7 +52,7 @@ function Connect({sendProvider, sendWallet}) {
                         </div>
                         <nav className="hidden md:flex lg:flex justify-between flex-1 pl-10">
                             <div className="flex items-center lg:text-md space-x-2 lg:space-x-8 drop-shadow-xl text-white">
-                                <a href="https://portal.dymension.xyz/rollapp/coinhunterstr_5131910-1" target="_blank" className="hover:text-gega-sky transition duration-500 tracking-widest"><i className="fa-brands fa-hive"></i> RollApp</a>
+                                <a href="https://portal.dymension.xyz/rollapp/coinhunterstr_9628364-1" target="_blank" className="hover:text-gega-sky transition duration-500 tracking-widest"><i className="fa-brands fa-hive"></i> RollApp</a>
                                 <a href="https://testnet-faucet-nu.vercel.app/" target="_blank" className="hover:text-gega-sky transition duration-500 tracking-widest text-blue-500"><i className="fa-solid fa-faucet"></i> Faucet</a>
                                 <div className="relative inline-block tooltipMarket hover:line-through duration-700 tracking-widest cursor-pointer">
                                     <a className="tooltipMarket ">NFT Marketplace</a>

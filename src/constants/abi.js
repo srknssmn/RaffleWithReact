@@ -5,6 +5,11 @@ export const RAFFLE_ABI = [
                 "internalType": "uint256",
                 "name": "_ticketCost",
                 "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_maxTicket",
+                "type": "uint256"
             }
         ],
         "stateMutability": "nonpayable",
@@ -199,6 +204,19 @@ export const RAFFLE_ABI = [
     },
     {
         "inputs": [],
+        "name": "maxTicket",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
         "name": "nftContract",
         "outputs": [
             {
@@ -258,6 +276,19 @@ export const RAFFLE_ABI = [
     {
         "inputs": [],
         "name": "resetContract",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "ticketCount",
+                "type": "uint256"
+            }
+        ],
+        "name": "setMaxTicket",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"

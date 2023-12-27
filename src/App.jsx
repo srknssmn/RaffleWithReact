@@ -4,9 +4,8 @@ import './css/styles.css'
 import Connect from './controllers/Connect';
 import Buyers from './components/Buyers';
 import {Contract} from './contracts/Contract';
-import { NFTContract } from './contracts/NFTContract';
 import { ethers } from "ethers";
-
+import { NFTContract } from './contracts/NFTContract';
 import RaffleNFT from './images/RaffleNFT.png'
 import bayc from './images/bayc.png'
 import bayc2 from './images/bayc2.jpg'
@@ -23,22 +22,27 @@ function App() {
   const [raffleContract, setRaffleContract] = useState(null)
   const [nftContract, setNftContract] = useState(null)
   const [account, setAccount] = useState(null)
-  const [admin, setAdmin] = useState(null)
   const [entries, setEntries] = useState(null)
   const [lottery, setLottery] = useState(false)
   const [buyers, setBuyers] = useState([])
   const [userTickets, setUserTickets] = useState(null)
   const [ticketCost, setTicketCost] = useState(null)
   const [ticketValue, setTicketValue] = useState(1)
+  const [ticketMax, setTicketMax] = useState(1)
   const [walletAddress, setWalletAddress] = useState("")
   const [winnerAddress, setWinnerAddress] = useState(null)
   const [nftAddress, setNftAddress] = useState("0x0000000000000000000000000000000000000000")
+  const [nftID, setNFTID] = useState(null)
+  const [admin, setAdmin] = useState(null)
+  const [showNFTID, setShowNFTIF] = useState(0)
+  const [raffleNFTAddress, setRaffleNFTAddress] = useState("")
+  const [raffleNFTID, setRaffleNFTID] = useState("")
 
   const newAccount = (provider) => {
     const contract = Contract();
     const nftContract = NFTContract();
     setRaffleContract(contract);
-    setNftContract(nftContract)
+    setNftContract(nftContract);
     setAccount(provider);
     setfirst(true)
   }
@@ -51,6 +55,13 @@ function App() {
     const response = await raffleContract?.ticketCost();
     const responseValue = await ethers.utils.formatEther(response)
     setTicketCost(responseValue);
+  }
+
+  const showMaxTicket = async () => {
+    const response = await raffleContract?.maxTicket();
+    const responseValue = await ethers.utils.formatEther(response)
+    const maxTicketValue = await responseValue * 10**18;
+    setTicketMax(maxTicketValue);
   } 
 
   const showEntries = async () => {
@@ -90,10 +101,17 @@ function App() {
     setNftAddress(response)
   }
 
+  const showNFTId = async () => {
+    const response = await raffleContract?.tokenId();
+    const responseValue = await ethers.utils.formatEther(response)
+    const nftValue = await Math.round(responseValue * 10**18)
+    setNFTID(nftValue)
+  }
+
   const showAdminAddress = async () => {
     const response = await raffleContract?.admin();
     setAdmin(response)
-  }
+  } 
 
   const handleTicketValue = (event) => {
     setTicketValue(event.target.value)
@@ -106,7 +124,7 @@ function App() {
   }
 
   const handleTicketIncrease = () => {
-    if (ticketValue < 5) {
+    if (ticketValue < ticketMax) {
       setTicketValue(ticketValue + 1)
     }
   }
@@ -117,9 +135,11 @@ function App() {
     const userTicketCount = await raffleContract?.entryCounts(signer.getAddress());
     const userTicketCountValue = await ethers.utils.formatEther(userTicketCount)
     const userTicketCountValueA = await userTicketCountValue * 10**18
+    const ticketMaxValue = await ticketMax;
+    const buyCount = await Math.floor(userTicketCountValueA + ticketValue)
 
-    if ((Number(userTicketCountValueA) + Number(ticketValue)) <= 5) {
-      let value_ = await ethers.utils.parseEther(`${1 * ticketValue}`)
+    if ((buyCount < ticketMaxValue) || (buyCount == ticketMaxValue)) {
+      let value_ = await ethers.utils.parseEther(`${ticketCost * ticketValue}`)
       try {
         const txn = await raffleContract.buyTicket(ticketValue, { value: value_ });
         await txn.wait();
@@ -130,14 +150,57 @@ function App() {
         }
       }
     } else {
-        window.alert("You can't buy that many tickets! Max. 5")
+        window.alert("You can't buy that many tickets!")
     }
   }
 
   const mintNFT = async () => {
-    console.log(nftContract)
+    console.log(admin)
     const txn = await nftContract.safeMint(admin);
     await txn.wait();
+    console.log(txn)
+  }
+
+  const showNFTOwner = async (event) => {
+    event.preventDefault();
+    const nftNumber = await showNFTID
+    await console.log(nftNumber)
+    const response = await nftContract.ownerOf(nftNumber);
+    await console.log(response)
+  }
+
+  const beginRaffle = async (event) => {
+    event.preventDefault();
+    const NFT = await raffleNFTAddress;
+    const nftID = await raffleNFTID;
+    console.log(NFT, nftID)
+    const txn = await raffleContract.startLottery(NFT, nftID);
+    await txn.wait();
+    console.log(txn)
+  }
+
+  const handleEndRaffle = async () => {
+    const txn = await raffleContract.endLottery();
+    await txn.wait();
+    console.log(txn)
+  }
+
+  const handlePickWinner = async () => {
+    const txn = await raffleContract.pickWinner();
+    await txn.wait();
+    console.log(txn)
+  }
+
+  const handleRaffleNFT = (e) => {
+    setRaffleNFTAddress(e.target.value)
+  }
+
+  const handleRaffleNFTID = (e) => {
+    setRaffleNFTID(e.target.value)
+  }
+
+  const handleNFTID = (e) => {
+    setShowNFTIF(e.target.value)
   }
 
   useEffect(() => {
@@ -150,6 +213,8 @@ function App() {
       showWinner();
       showNftAddress();
       showAdminAddress();
+      showMaxTicket();
+      showNFTId();
     }    
   });
 
@@ -174,7 +239,7 @@ function App() {
                   </div>
                   <div className='flex flex-row space-x-2'>
                     <p className='font-bold tracking-wider'>Number:</p>
-                    <p>#1</p>
+                    <p>#{nftID}</p>
                   </div>
                 </div>
                 <div className="mt-2 flex flex-row space-x-2">
@@ -207,11 +272,11 @@ function App() {
                   <div className='flex flex-row space-x-2 my-3'>
                     <p className='font-bold tracking-wider'>Cost:</p>
                     <p>{ticketCost}</p>
-                    <p>$CHTR</p>
+                    <p>$ETH</p>
                   </div>
                   <div className='flex flex-row space-x-2 my-3'>
                     <p className='font-bold tracking-wider'>Limit:</p>
-                    <p>5 / per person</p>
+                    <p>{ticketMax} / per person</p>
                   </div>
                 </div>
                 <div className='my-4'>
@@ -254,9 +319,14 @@ function App() {
           </div>
           <div>
             <h2 className='text-center tracking-wider text-3xl font-bold'>All Buyers Info</h2>
-            {buyers.length > 0 ? <p>Total Buyers: {buyers.length}</p> : ""}
-            <p>Total Entries: {entries}</p>
-            <Buyers buyersArray={buyers}/>
+            <div className='my-4 mx-4'>
+              {buyers.length > 0 ? <p>Total Buyers: {buyers.length}</p> : ""}
+              <p>Total Entries: {entries}</p>
+            </div>
+            <div className='my-4 mx-4'>
+              <h4 className="tracking-wider font-semibold text-xl underline">Buyers List:</h4>
+              <Buyers buyersArray={buyers}/>
+            </div>
           </div>
         </div>
         :
@@ -289,9 +359,46 @@ function App() {
         </div>
     }
 
-    {(admin == walletAddress) ?
-      <button onClick={mintNFT}>Mint NFT</button>
-    : ""}
+    {(walletAddress == admin) ? 
+    
+    <div>
+      <h2 className='text-center tracking-wider text-3xl font-bold'>Admin Panel</h2>
+      <div className='mx-4 my-4 border-2 px-4 py-4'>
+        <button className='hover:text-gega-melon transition duration-500 tracking-widest rounded-lg border-2 border-blue-800 px-1 py-1 text-blue-800 font-bold' onClick={mintNFT}>Mint NFT</button>
+        <form onSubmit={showNFTOwner}>
+          <input className='border-2' value={showNFTID} type="number" onChange={handleNFTID} />
+          <button className='hover:text-gega-melon transition duration-500 tracking-widest rounded-lg border-2 border-blue-800 px-1 py-1 text-blue-800 font-bold' type='submit'>Show NFT Owner</button>
+        </form>
+      </div>
+      
+      <div className='mx-4 my-4 border-2 px-4 py-4'>
+        <form onSubmit={beginRaffle}>
+          <div className='flex flex-col space-y-2'>
+            <div className='flex flex-row space-x-2'>
+              <label>NFT Address:</label>
+              <input className='border-2' value={raffleNFTAddress} type="text" onChange={handleRaffleNFT} />
+            </div>
+            <div className='flex flex-row space-x-2'>
+              <label>NFT ID:</label>
+              <input className='border-2' value={raffleNFTID} type="number" onChange={handleRaffleNFTID} />
+            </div>
+            <div>
+              <button className='hover:text-gega-melon transition duration-500 tracking-widest rounded-lg border-2 border-blue-800 px-1 py-1 text-blue-800 font-bold' type='submit'>Start a Raffle</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div className='mx-4 my-4 border-2 px-4 py-4 flex flex-row space-x-2'>
+        <button onClick={handleEndRaffle} className='hover:text-gega-melon transition duration-500 tracking-widest rounded-lg border-2 border-red-800 px-1 py-1 text-red-800 font-bold'>End Raffle</button>
+        <button onClick={handlePickWinner} className='hover:text-gega-melon transition duration-500 tracking-widest rounded-lg border-2 border-blue-800 px-1 py-1 text-blue-800 font-bold'>Pick Winner</button>
+      </div>
+      
+    </div>
+
+    : 
+
+    ""}
 
     <div className='mt-10'>
       <footer id='contact' className="bg-white rounded-lg shadow dark:bg-gray-900 m-4">
@@ -312,6 +419,9 @@ function App() {
                     </li>
                     <li>
                         <a href="https://twitter.com/CoinHuntersTR" target="_blank" className="hover:underline">Telegram</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/CoinHuntersTR" target="_blank" className="hover:underline me-4 md:me-6">Personal Github</a>
                     </li>
                 </ul>
             </div>

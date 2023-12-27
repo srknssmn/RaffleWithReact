@@ -1,13 +1,13 @@
 export const verifyNetwork = async () => {
 
-    // Dymension CoinHuntersTR Network Verifying
-    const dymensionRollupID = await '0x4E4E86';
+    // Sepolia Network Verifying
+    const dymensionRollupID = await '0x92EACC';
     const chainId = await window.ethereum.request({
         method: 'eth_chainId',
       });
     
     if (chainId === dymensionRollupID){
-        console.log("Bravo!, you are on the correct network (CoinHuntersTR)")
+        console.log("Bravo!, you are on the correct network")
         
     } else {
   
@@ -19,7 +19,7 @@ export const verifyNetwork = async () => {
                 method: 'wallet_switchEthereumChain',
                 params: [{ chainId: dymensionRollupID}],
             });
-            console.log("You have succefully switched to CoinHuntersTR Dymension Rollup")
+            console.log("You have succefully switched to Coinhunters Dymension Rollup")
         
         } catch (switchError) {
             
@@ -31,9 +31,9 @@ export const verifyNetwork = async () => {
                     await window.ethereum.request({
                         method: 'wallet_addEthereumChain',
                         params: [
-                        { chainId: '0x4E4E86', 
+                        { chainId: '0x92EACC', 
                         chainName:'CoinHuntersTR',
-                        rpcUrls:['https://froopyland.dymension.xyz/22/coinhunterstr_5131910-1-a/evmrpc'],
+                        rpcUrls:['https://froopyland.dymension.xyz/24/coinhunterstr_9628364-1/evmrpc'],
                         nativeCurrency: {
                         symbol:'CHTR', // 2-6 characters long
                     decimals: 18
